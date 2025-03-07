@@ -1,0 +1,2 @@
+worker: python QalamBot.py
+
