@@ -1,1 +1,1 @@
-worker: python QalamBot.py
+web: python QalamBot.py
