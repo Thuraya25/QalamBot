@@ -19,3 +19,6 @@ telegram==0.0.1
 tqdm==4.67.1
 tzdata==2025.1
 tzlocal==5.3
+nltk
+language-tool-python
+
