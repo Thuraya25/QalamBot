@@ -61,7 +61,7 @@ BOT_USERNAME:Final = "@QalamAI_Bot"
 
 
 # Initialize LanguageTool for grammar checking
-tool = language_tool_python.LanguageTool('en-US')
+tool = language_tool_python.LanguageTool('en-US', remote_server='https://api.languagetool.org')
 
 
 # In[7]:
