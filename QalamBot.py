@@ -33,6 +33,10 @@ import pytz
 from datetime import datetime
 from telegram import Bot
 import nest_asyncio
+import nltk
+nltk.download('punkt')
+nltk.download('stopwords')
+
 
 
 # In[3]:
@@ -215,6 +219,23 @@ async def process_message(message_type: str, text: str, BOT_USERNAME: str) -> st
 timezone = pytz.timezone('Asia/Riyadh')
 dt = datetime.now(timezone)
 
+from nltk.tokenize import word_tokenize
+from nltk.corpus import stopwords
+
+def clean_text(text):
+    # Tokenize the text
+    tokens = word_tokenize(text)
+    
+    # Remove stopwords
+    stop_words = set(stopwords.words('english'))
+    filtered_tokens = [word for word in tokens if word.lower() not in stop_words]
+    
+    return " ".join(filtered_tokens)
+
+# Example usage
+user_input = "This is an example sentence with stopwords."
+cleaned_input = clean_text(user_input)
+print("Cleaned input:", cleaned_input)
 
 # In[17]:
 
