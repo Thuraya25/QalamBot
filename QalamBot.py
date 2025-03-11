@@ -33,27 +33,85 @@ import pytz
 from datetime import datetime
 from telegram import Bot
 import nest_asyncio
-import nltk
 nltk.download('punkt')
 nltk.download('stopwords')
 
 
-
 # In[3]:
+
+
+print(nltk.data.path)
+
+
+# In[6]:
+
+
+nltk.data.path.append(r'C:\Users\thura\AppData\Roaming\nltk_data')
+nltk.download('punkt')  # Example for downloading the Punkt tokenizer
+
+
+
+# In[7]:
+
+
+import nltk
+from nltk.corpus import stopwords
+
+# Load the stopwords corpus
+stop_words = stopwords.words('english')
+print(stop_words[:10])  # Print the first 10 stopwords
+
+
+# In[8]:
+
+
+from nltk.corpus import words
+
+# Get a list of English words
+english_words = words.words()
+print(english_words[:10])  # Print the first 10 words
+
+
+# In[12]:
+
+
+import nltk
+nltk.download('omw-1.4')
+
+
+
+
+# In[15]:
+
+
+from nltk.corpus import wordnet as wn
+from nltk.corpus import stopwords
+
+# Load some wordnet synsets in English
+synsets = wn.synsets("dog")
+print(synsets)
+
+# Use stopwords corpus
+stop_words = stopwords.words('english')
+print(stop_words[:10])  # First 10 stopwords
+
+
+
+# In[16]:
 
 
 # Apply nest_asyncio to avoid event loop conflicts in Jupyter Notebook
 nest_asyncio.apply()
 
 
-# In[4]:
+# In[17]:
 
 
 # download necessary NLTK data
 nltk.download('wordnet')
 
 
-# In[5]:
+# In[18]:
 
 
 #bot token and username.
@@ -61,14 +119,14 @@ Token: Final='7690158589:AAESSAxYHDHipEjmhqr5QhwegVD8gTQrQtM'
 BOT_USERNAME:Final = "@QalamAI_Bot"
 
 
-# In[6]:
+# In[19]:
 
 
 # Initialize LanguageTool for grammar checking
-tool = language_tool_python.LanguageTool('en-US', remote_server='https://api.languagetool.org')
+tool = language_tool_python.LanguageTool('en-US')
 
 
-# In[7]:
+# In[20]:
 
 
 def log_command(update: Update, context: ContextTypes.DEFAULT_TYPE):
@@ -77,7 +135,7 @@ def log_command(update: Update, context: ContextTypes.DEFAULT_TYPE):
 
 
 
-# In[8]:
+# In[21]:
 
 
 async def start_command (update: Update, context: ContextTypes.DEFAULT_TYPE) -> None:
@@ -88,7 +146,7 @@ async def start_command (update: Update, context: ContextTypes.DEFAULT_TYPE) -> 
         "🆘 Need help? Type /help")
 
 
-# In[9]:
+# In[22]:
 
 
 async def help_command(update: Update, context:ContextTypes.DEFAULT_TYPE) -> None:
@@ -105,7 +163,7 @@ async def help_command(update: Update, context:ContextTypes.DEFAULT_TYPE) -> Non
         "Need further assistance? Just ask!")
 
 
-# In[10]:
+# In[23]:
 
 
 async def correct_command(update: Update, context: ContextTypes.DEFAULT_TYPE) -> None:
@@ -128,7 +186,7 @@ async def correct_command(update: Update, context: ContextTypes.DEFAULT_TYPE) ->
     await update.message.reply_text(response)
 
 
-# In[11]:
+# In[24]:
 
 
 async def vocabinfo_command (update: Update, context: ContextTypes.DEFAULT_TYPE)-> None:
@@ -156,7 +214,7 @@ async def vocabinfo_command (update: Update, context: ContextTypes.DEFAULT_TYPE)
         await update.message.reply_text(message, parse_mode='Markdown')
 
 
-# In[12]:
+# In[25]:
 
 
 async def reset_command(update: Update, context: ContextTypes):
@@ -165,7 +223,7 @@ async def reset_command(update: Update, context: ContextTypes):
     await update.message.reply_text("🔄 Session has been reset. You can start fresh now!")
 
 
-# In[13]:
+# In[26]:
 
 
 async def handle_response(text: str) -> str:
@@ -183,7 +241,7 @@ async def handle_response(text: str) -> str:
     return "I'm not sure how to respond to that. Could you try again?"
 
 
-# In[14]:
+# In[27]:
 
 
 async def handle_message(update: Update, context: ContextTypes.DEFAULT_TYPE):
@@ -196,7 +254,7 @@ async def handle_message(update: Update, context: ContextTypes.DEFAULT_TYPE):
         await update.message.reply_text("I'm not sure, sorry...")
 
 
-# In[15]:
+# In[28]:
 
 
 async def process_message(message_type: str, text: str, BOT_USERNAME: str) -> str:
@@ -212,30 +270,13 @@ async def process_message(message_type: str, text: str, BOT_USERNAME: str) -> st
     return response
 
 
-# In[16]:
+# In[29]:
 
 
 # Set bot's timezone
 timezone = pytz.timezone('Asia/Riyadh')
 dt = datetime.now(timezone)
 
-from nltk.tokenize import word_tokenize
-from nltk.corpus import stopwords
-
-def clean_text(text):
-    # Tokenize the text
-    tokens = word_tokenize(text)
-    
-    # Remove stopwords
-    stop_words = set(stopwords.words('english'))
-    filtered_tokens = [word for word in tokens if word.lower() not in stop_words]
-    
-    return " ".join(filtered_tokens)
-
-# Example usage
-user_input = "This is an example sentence with stopwords."
-cleaned_input = clean_text(user_input)
-print("Cleaned input:", cleaned_input)
 
 # In[17]:
 
@@ -267,8 +308,7 @@ async def run_bot():
     await app.run_polling(poll_interval=3)
 
 # Start the bot
-if __name__ == "__main__":
-    asyncio.run(run_bot())
+asyncio.create_task(run_bot())
 print("Running bot...")
 
 
