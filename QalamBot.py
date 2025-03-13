@@ -44,6 +44,12 @@ try:
 except LookupError:
     nltk.download('words')
 
+# Set a custom directory for NLTK data (make sure it's writable)
+nltk_data_dir = '/opt/render/project/src/.venv/nltk_data'
+if not os.path.exists(nltk_data_dir):
+    os.makedirs(nltk_data_dir)
+nltk.data.path.append(nltk_data_dir)
+
 
 # In[3]:
 
