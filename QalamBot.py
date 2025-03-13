@@ -37,6 +37,14 @@ nltk.download('punkt')
 nltk.download('stopwords')
 
 
+
+# Download the 'words' resource if it's not already available
+try:
+    nltk.data.find('corpora/words')
+except LookupError:
+    nltk.download('words')
+
+
 # In[3]:
 
 
