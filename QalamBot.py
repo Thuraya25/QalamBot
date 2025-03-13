@@ -35,6 +35,7 @@ from telegram import Bot
 import nest_asyncio
 nltk.download('punkt')
 nltk.download('stopwords')
+nltk.download('words')
 
 
 # In[3]:
@@ -47,14 +48,13 @@ print(nltk.data.path)
 
 
 nltk.data.path.append(r'C:\Users\thura\AppData\Roaming\nltk_data')
-nltk.download('punkt')  # Example for downloading the Punkt tokenizer
+
 
 
 
 # In[7]:
 
 
-import nltk
 from nltk.corpus import stopwords
 
 # Load the stopwords corpus
@@ -84,7 +84,6 @@ nltk.download('omw-1.4')
 
 
 from nltk.corpus import wordnet as wn
-from nltk.corpus import stopwords
 
 # Load some wordnet synsets in English
 synsets = wn.synsets("dog")
