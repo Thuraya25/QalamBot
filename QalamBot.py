@@ -21,6 +21,7 @@ logging.debug("Bot has started")
 
 import language_tool_python
 import os
+from dotenv import load_dotenv
 from typing import Final
 from telegram import Update
 from telegram.ext import Application, CommandHandler, MessageHandler, filters, ContextTypes
@@ -47,7 +48,9 @@ print(nltk.data.path)
 # In[6]:
 
 
-nltk.data.path.append(r'C:\Users\thura\AppData\Roaming\nltk_data')
+load_dotenv()  # Load environment variables from .env
+nltk_data_path = os.getenv('NLTK_DATA')  # Get the NLTK_DATA path from .env
+os.environ['NLTK_DATA'] = nltk_data_path  # Set the environment variable for NLTK
 
 
 
@@ -92,6 +95,7 @@ print(synsets)
 # Use stopwords corpus
 stop_words = stopwords.words('english')
 print(stop_words[:10])  # First 10 stopwords
+
 
 
 
