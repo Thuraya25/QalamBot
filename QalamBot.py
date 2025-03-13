@@ -37,6 +37,7 @@ import nest_asyncio
 nltk.download('punkt')
 nltk.download('stopwords')
 nltk.download('words')
+nltk.download('wordnet')
 
 
 # In[3]:

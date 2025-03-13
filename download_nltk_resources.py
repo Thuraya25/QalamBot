@@ -12,3 +12,7 @@ import os
 os.environ['NLTK_DATA'] = "C:\\Users\\thura\\NLTK_data"
 
 
+nltk.download('wordnet')
+
+
+
