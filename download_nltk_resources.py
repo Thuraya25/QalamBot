@@ -5,6 +5,7 @@ nltk.download('punkt')
 nltk.download('stopwords')
 nltk.download('words')
 nltk.download('omw-1.4')
+nltk.download('wordnet')
 
 import os
 
@@ -12,7 +13,6 @@ import os
 os.environ['NLTK_DATA'] = "C:\\Users\\thura\\NLTK_data"
 
 
-nltk.download('wordnet')
 
 
 
