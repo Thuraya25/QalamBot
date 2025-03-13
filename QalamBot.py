@@ -37,20 +37,6 @@ nltk.download('punkt')
 nltk.download('stopwords')
 
 
-
-# Download the 'words' resource if it's not already available
-try:
-    nltk.data.find('corpora/words')
-except LookupError:
-    nltk.download('words')
-
-# Set a custom directory for NLTK data (make sure it's writable)
-nltk_data_dir = '/opt/render/project/src/.venv/nltk_data'
-if not os.path.exists(nltk_data_dir):
-    os.makedirs(nltk_data_dir)
-nltk.data.path.append(nltk_data_dir)
-
-
 # In[3]:
 
 
@@ -337,3 +323,4 @@ print("Running bot...")
 
 
 
+>>>>>>> 64b413453c3d9726bec3ba21058fed1e97d38fb9
