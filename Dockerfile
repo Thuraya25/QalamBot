@@ -1,17 +1,20 @@
-# Use a Python base image
+# Use an official Python runtime as a parent image
 FROM python:3.11-slim
 
-# Install Java (openjdk)
-RUN apt-get update && apt-get install -y openjdk-11-jdk
+# Set environment variable for non-interactive installation (useful for apt-get)
+ENV DEBIAN_FRONTEND=noninteractive
 
-# Set the working directory
+# Install Java (required by language_tool_python)
+RUN apt-get update && apt-get install -y openjdk-11-jdk && rm -rf /var/lib/apt/lists/*
+
+# Set the working directory in the container
 WORKDIR /app
 
-# Copy the project files into the container
+# Copy the current directory contents into the container at /app
 COPY . .
 
-# Install Python dependencies
-RUN pip install -r requirements.txt
+# Install the Python dependencies from requirements.txt
+RUN pip install --no-cache-dir -r requirements.txt
 
-# Command to run the bot
+# Command to run your bot
 CMD ["python", "QalamBot.py"]
