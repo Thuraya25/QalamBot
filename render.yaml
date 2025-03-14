@@ -1,12 +1,12 @@
 services:
   - type: web
-    name: qalam-bot
+    name: qalam-telegram-bot
     env: python
     buildCommand: |
-      apt-get update
-      apt-get install -y openjdk-11-jdk
-      python3 -m pip install -r requirements.txt
-    startCommand: python download_nltk_resources.py && python QalamBot.py
-    autoDeploy: true
+      apt-get update && apt-get install -y openjdk-11-jdk
+      pip install -r requirements.txt
+    startCommand: python QalamBot.py
+
+
 
  

@@ -1,1 +1,1 @@
-web: python download_nltk_resources.py && python QalamBot.py
+web: python QalamBot.py
