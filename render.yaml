@@ -2,7 +2,7 @@ services:
   - type: web
     name: qalam-telegram-bot
     env: docker
-    buildCommand: # This is not needed when using Docker, Render uses the Dockerfile
+    buildCommand: echo "Using Docker for build"
     startCommand: python QalamBot.py
     
     
