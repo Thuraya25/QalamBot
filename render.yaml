@@ -6,7 +6,7 @@ services:
       apt-get update
       apt-get install -y openjdk-11-jdk
       python3 -m pip install -r requirements.txt
-    startCommand: python QalamBot.py
+    startCommand: python download_nltk_resources.py && python QalamBot.py
     autoDeploy: true
 
  
