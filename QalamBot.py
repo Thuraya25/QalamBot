@@ -50,8 +50,8 @@ print(nltk.data.path)
 
 
 load_dotenv()  # Load environment variables from .env
-nltk_data_path = os.getenv('NLTK_DATA')  # Get the NLTK_DATA path from .env
-os.environ['NLTK_DATA'] = nltk_data_path  # Set the environment variable for NLTK
+nltk_data_path = os.getenv('NLTK_DATA', '/opt/render/project/src/.venv/nltk_data')  # Ensure it matches the path
+nltk.data.path.append(nltk_data_path)  # Set the environment variable for NLTK
 
 
 
