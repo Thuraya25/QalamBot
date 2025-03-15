@@ -1,19 +1,13 @@
-#!/bin/bash
-
-# Install ncurses-utils to ensure tput works
+##!/bin/bash
+# Install Java 11 (required for language_tool_python)
 apt-get update
-apt-get install -y ncurses-utils
+apt-get install -y openjdk-11-jre
 
-# Install Java 11 if it's not already installed
-apt-get install -y openjdk-11-jdk
-
-# Set JAVA_HOME
-export JAVA_HOME=$(dirname $(dirname $(readlink -f $(which javac))))
+# Set JAVA_HOME environment variable
+export JAVA_HOME=/usr/lib/jvm/java-11-openjdk-amd64
 export PATH=$JAVA_HOME/bin:$PATH
 
-# Check if Java is properly installed
-java -version
+apt-get install -y ncurses-bin
 
-# Install the Python dependencies
+# Install Python dependencies
 pip install -r requirements.txt
-
