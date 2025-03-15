@@ -134,6 +134,10 @@ telegram_token = os.getenv("TELEGRAM_TOKEN")
 tool = language_tool_python.LanguageTool('en-US')
 
 
+# Check if Java is installed
+java_installed = os.system("java -version") == 0
+print(f"Java installed: {java_installed}")
+
 # In[20]:
 
 
