@@ -1,7 +1,10 @@
 FROM python:3.11-slim
 
-# Install Java 23
-RUN apt-get update && apt-get install -y openjdk-23-jre
+# Install Java 11
+RUN apt-get update && apt-get install -y openjdk-11-jre
+
+# Set JAVA_HOME environment variable
+ENV JAVA_HOME=/usr/lib/jvm/java-11-openjdk-amd64
 
 # Set working directory
 WORKDIR /app
