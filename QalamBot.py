@@ -38,7 +38,7 @@ nltk.download('punkt')
 nltk.download('stopwords')
 nltk.download('words')
 nltk.download('wordnet')
-
+nltk.download('averaged_perceptron_tagger')
 
 # In[3]:
 
@@ -323,6 +323,6 @@ async def run_bot():
     asyncio.run(run_bot())
 print("Running bot...")
 
-
+print(nltk.data.path)
 # In[ ]:
 
