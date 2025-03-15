@@ -1,18 +1,19 @@
 #!/bin/bash
 
-# Install necessary utilities like tput
-sudo apt update
-sudo apt install -y ncurses-utils
+# Install ncurses-utils to ensure tput works
+apt-get update
+apt-get install -y ncurses-utils
 
-# Install Java 11
-sudo apt install -y openjdk-11-jdk
+# Install Java 11 if it's not already installed
+apt-get install -y openjdk-11-jdk
 
 # Set JAVA_HOME
 export JAVA_HOME=$(dirname $(dirname $(readlink -f $(which javac))))
 export PATH=$JAVA_HOME/bin:$PATH
 
-# Check Java version
+# Check if Java is properly installed
 java -version
 
-# Install Python dependencies
+# Install the Python dependencies
 pip install -r requirements.txt
+
