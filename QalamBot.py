@@ -2,7 +2,14 @@
 # coding: utf-8
 
 # In[1]:
+import nltk
+import os
 
+# Set the NLTK data path explicitly
+nltk_data_path = os.path.join(os.getcwd(), "nltk_data")
+nltk.data.path.append(nltk_data_path)
+
+print(f"NLTK Data Path: {nltk_data_path}")  # Debugging statement
 
 import logging
 
@@ -20,14 +27,12 @@ logging.debug("Bot has started")
 #import all necessary libraries 
 
 import language_tool_python
-import os
 from dotenv import load_dotenv
 from typing import Final
 from telegram import Update
 from telegram.ext import Application, CommandHandler, MessageHandler, filters, ContextTypes
 import asyncio
 import nest_asyncio
-import nltk
 from nltk.corpus import wordnet
 from nltk.corpus import wordnet as wn
 import pytz
