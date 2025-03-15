@@ -1,13 +1,10 @@
-##!/bin/bash
-# Install Java 11 (required for language_tool_python)
+#!/bin/bash
+# Install Java 23 (required for language_tool_python)
 apt-get update
-apt-get install -y openjdk-11-jre
+apt-get install -y openjdk-23-jre
 
 # Set JAVA_HOME environment variable
-export JAVA_HOME=/usr/lib/jvm/java-11-openjdk-amd64
-export PATH=$JAVA_HOME/bin:$PATH
-
-apt-get install -y ncurses-bin
+export JAVA_HOME=/usr/lib/jvm/java-23-openjdk-amd64
 
 # Install Python dependencies
 pip install -r requirements.txt
