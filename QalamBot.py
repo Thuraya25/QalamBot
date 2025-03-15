@@ -5,11 +5,29 @@
 import nltk
 import os
 
-# Set the NLTK data path explicitly
+# Define the correct NLTK data path inside QalamBot
 nltk_data_path = os.path.join(os.getcwd(), "nltk_data")
+
+# Ensure the directory exists
+if not os.path.exists(nltk_data_path):
+    os.makedirs(nltk_data_path)
+
+# Clear existing paths and add only your desired path
+nltk.data.path.clear()
 nltk.data.path.append(nltk_data_path)
 
-print(f"NLTK Data Path: {nltk_data_path}")  # Debugging statement
+# Download required packages inside QalamBot/nltk_data
+nltk.download("punkt", download_dir=nltk_data_path)
+nltk.download("stopwords", download_dir=nltk_data_path)
+nltk.download("wordnet", download_dir=nltk_data_path)
+nltk.download("averaged_perceptron_tagger", download_dir=nltk_data_path)
+nltk.download("words", download_dir=nltk_data_path)
+
+# Now you can safely use words
+from nltk.corpus import words
+english_words = words.words()
+print(english_words[:10])  # Example output
+
 
 import logging
 
