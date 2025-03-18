@@ -55,16 +55,12 @@ TELEGRAM_TOKEN = os.getenv("TELEGRAM_TOKEN")
 # In[24]:
 
 
-nltk.data.path = list(set(nltk.data.path))
 nltk.data.path = [r'C:\Users\thura\QalamBot\nltk_data']
+nltk.data.path.append(r"C:\Users\thura\QalamBot\nltk_data")  # Add custom NLTK data path
 
 
 # In[25]:
 
-
-nltk.data.path.append(os.path.join(os.getcwd(), 'nltk_data'))
-
-print(nltk.data.path)
 
 
 # In[26]:
@@ -244,39 +240,29 @@ dt = datetime.now(timezone)
 
 async def error(update: Update, context: ContextTypes.DEFAULT_TYPE):
     logging.error(f"Update {update} caused error {context.error}")
-if __name__=='__main__':
-    logging.info('Starting bot...')
-# Initialize bot application
-    app= Application.builder().token(TELEGRAM_TOKEN).build()
-    #add command handler
-    app.add_handler(CommandHandler('start', start_command))
-    app.add_handler(CommandHandler('help', help_command))
-    app.add_handler(CommandHandler('correct', correct_command))
-    app.add_handler(CommandHandler('vocabinfo', vocabinfo_command))
-    app.add_handler(CommandHandler('reset', reset_command))
-
-    #add message handler
-    app.add_handler(MessageHandler(filters.TEXT, handle_message)) 
- 
-    #add error handler
-    app.add_error_handler(error)
-    
-    nest_asyncio.apply()
-
-
 async def run_bot():
-    logging.info('Polling...')
+    logging.info("Starting bot...")
+
+    # Initialize bot application
+    app = Application.builder().token(TELEGRAM_TOKEN).build()
+
+    # Add command handlers
+    app.add_handler(CommandHandler("start", start_command))
+    app.add_handler(CommandHandler("help", help_command))
+    app.add_handler(CommandHandler("correct", correct_command))
+    app.add_handler(CommandHandler("vocabinfo", vocabinfo_command))
+    app.add_handler(CommandHandler("reset", reset_command))
+
+    # Add message handler
+    app.add_handler(MessageHandler(filters.TEXT, handle_message))
+
+    # Add error handler
+    app.add_error_handler(error)
+
+    nest_asyncio.apply()  # Apply nest_asyncio to prevent event loop issues
+
+    logging.info("Polling started...")
     await app.run_polling(poll_interval=3)
 
-# Start the bot
-asyncio.create_task(run_bot())
-print("Running bot...")
-
-
-
-
-# In[ ]:
-
-
-
-
+if __name__ == "__main__":
+    asyncio.run(run_bot())
