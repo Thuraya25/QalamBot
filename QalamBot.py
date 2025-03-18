@@ -1,7 +1,7 @@
 #!/usr/bin/env python
 # coding: utf-8
 
-# In[2]:
+# In[1]:
 
 
 #import all necessary libraries 
@@ -32,7 +32,7 @@ nltk.download('wordnet')
 nltk.download("averaged_perceptron_tagger")
 
 
-# In[3]:
+# In[2]:
 
 
 # Enable logging
@@ -43,7 +43,7 @@ logging.basicConfig(filename='bot.log', level=logging.DEBUG,
 logging.debug("Bot has started")
 
 
-# In[16]:
+# In[3]:
 
 
 # Load Environment Variables
@@ -52,18 +52,21 @@ TELEGRAM_TOKEN = os.getenv("TELEGRAM_TOKEN")
 
 
 
-# In[24]:
+# In[4]:
 
 
 nltk.data.path = [r'C:\Users\thura\QalamBot\nltk_data']
-nltk.data.path.append(r"C:\Users\thura\QalamBot\nltk_data")  # Add custom NLTK data path
 
 
-# In[25]:
+# In[5]:
 
 
+# Add custom NLTK data path
+nltk_data_path = os.path.join(os.getcwd(), "nltk_data")
+nltk.data.path.append(nltk_data_path)
 
-# In[26]:
+
+# In[6]:
 
 
 # Load the stopwords corpus
@@ -71,7 +74,7 @@ stop_words = stopwords.words('english')
 print(stop_words[:10])  # Print the first 10 stopwords
 
 
-# In[27]:
+# In[7]:
 
 
 # Get a list of English words
@@ -79,7 +82,7 @@ english_words = words.words()
 print(english_words[:10])  # Print the first 10 words
 
 
-# In[28]:
+# In[8]:
 
 
 # Load some wordnet synsets in English
@@ -92,14 +95,14 @@ print(stop_words[:10])  # First 10 stopwords
 
 
 
-# In[29]:
+# In[9]:
 
 
 # Initialize LanguageTool for grammar checking
 tool = language_tool_python.LanguageTool('en-US')
 
 
-# In[30]:
+# In[10]:
 
 
 def log_command(update: Update, context: ContextTypes.DEFAULT_TYPE):
@@ -108,7 +111,7 @@ def log_command(update: Update, context: ContextTypes.DEFAULT_TYPE):
 
 
 
-# In[31]:
+# In[11]:
 
 
 async def start_command (update: Update, context: ContextTypes.DEFAULT_TYPE) -> None:
@@ -119,7 +122,7 @@ async def start_command (update: Update, context: ContextTypes.DEFAULT_TYPE) -> 
         "🆘 Need help? Type /help")
 
 
-# In[32]:
+# In[12]:
 
 
 async def help_command(update: Update, context:ContextTypes.DEFAULT_TYPE) -> None:
@@ -136,7 +139,7 @@ async def help_command(update: Update, context:ContextTypes.DEFAULT_TYPE) -> Non
         "Need further assistance? Just ask!")
 
 
-# In[33]:
+# In[13]:
 
 
 async def correct_command(update: Update, context: ContextTypes.DEFAULT_TYPE) -> None:
@@ -159,7 +162,7 @@ async def correct_command(update: Update, context: ContextTypes.DEFAULT_TYPE) ->
     await update.message.reply_text(response)
 
 
-# In[34]:
+# In[14]:
 
 
 async def vocabinfo_command (update: Update, context: ContextTypes.DEFAULT_TYPE)-> None:
@@ -187,7 +190,7 @@ async def vocabinfo_command (update: Update, context: ContextTypes.DEFAULT_TYPE)
         await update.message.reply_text(message, parse_mode='Markdown')
 
 
-# In[35]:
+# In[15]:
 
 
 async def reset_command(update: Update, context: ContextTypes):
@@ -196,7 +199,7 @@ async def reset_command(update: Update, context: ContextTypes):
     await update.message.reply_text("🔄 Session has been reset. You can start fresh now!")
 
 
-# In[36]:
+# In[16]:
 
 
 async def handle_message(update: Update, context: CallbackContext) -> None:
@@ -227,7 +230,7 @@ async def handle_message(update: Update, context: CallbackContext) -> None:
 
 
 
-# In[37]:
+# In[17]:
 
 
 # Set bot's timezone
@@ -235,34 +238,44 @@ timezone = pytz.timezone('Asia/Riyadh')
 dt = datetime.now(timezone)
 
 
-# In[38]:
+# In[18]:
 
 
 async def error(update: Update, context: ContextTypes.DEFAULT_TYPE):
     logging.error(f"Update {update} caused error {context.error}")
-async def run_bot():
-    logging.info("Starting bot...")
+if __name__=='__main__':
+    logging.info('Starting bot...')
+# Initialize bot application
+    app= Application.builder().token(TELEGRAM_TOKEN).build()
+    #add command handler
+    app.add_handler(CommandHandler('start', start_command))
+    app.add_handler(CommandHandler('help', help_command))
+    app.add_handler(CommandHandler('correct', correct_command))
+    app.add_handler(CommandHandler('vocabinfo', vocabinfo_command))
+    app.add_handler(CommandHandler('reset', reset_command))
 
-    # Initialize bot application
-    app = Application.builder().token(TELEGRAM_TOKEN).build()
-
-    # Add command handlers
-    app.add_handler(CommandHandler("start", start_command))
-    app.add_handler(CommandHandler("help", help_command))
-    app.add_handler(CommandHandler("correct", correct_command))
-    app.add_handler(CommandHandler("vocabinfo", vocabinfo_command))
-    app.add_handler(CommandHandler("reset", reset_command))
-
-    # Add message handler
-    app.add_handler(MessageHandler(filters.TEXT, handle_message))
-
-    # Add error handler
+    #add message handler
+    app.add_handler(MessageHandler(filters.TEXT, handle_message)) 
+ 
+    #add error handler
     app.add_error_handler(error)
+    
+    nest_asyncio.apply()
 
-    nest_asyncio.apply()  # Apply nest_asyncio to prevent event loop issues
 
-    logging.info("Polling started...")
+async def run_bot():
+    logging.info('Polling...')
     await app.run_polling(poll_interval=3)
 
-if __name__ == "__main__":
-    asyncio.run(run_bot())
+# Start the bot
+asyncio.create_task(run_bot())
+print("Running bot...")
+
+
+
+
+# In[ ]:
+
+
+
+
