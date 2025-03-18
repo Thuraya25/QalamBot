@@ -2,115 +2,88 @@
 # coding: utf-8
 
 # In[1]:
-import nltk
-import os
 
-# Define the correct NLTK data path inside QalamBot
-nltk_data_path = os.path.join(os.getcwd(), "nltk_data")
 
-# Ensure the directory exists
-if not os.path.exists(nltk_data_path):
-    os.makedirs(nltk_data_path)
-
-# Clear existing paths and add only your desired path
-nltk.data.path.clear()
-nltk.data.path.append(nltk_data_path)
-
-# Download required packages inside QalamBot/nltk_data
-nltk.download("punkt", download_dir=nltk_data_path)
-nltk.download("stopwords", download_dir=nltk_data_path)
-nltk.download("wordnet", download_dir=nltk_data_path)
-nltk.download("averaged_perceptron_tagger", download_dir=nltk_data_path)
-nltk.download("words", download_dir=nltk_data_path)
-
-# Now you can safely use words
-from nltk.corpus import words
-english_words = words.words()
-print(english_words[:10])  # Example output
-
+#import all necessary libraries 
 
 import logging
-
-# Set up logging at the beginning of your script
-logging.basicConfig(filename='bot.log', level=logging.DEBUG,
-                    format='%(asctime)s - %(levelname)s - %(message)s')
-
-# Then, you can log something
-logging.debug("Bot has started")
+import os
+import language_tool_python
+from typing import Final
+from dotenv import load_dotenv
+from telegram import Update
+from telegram import Bot
+from telegram.ext import Application, CommandHandler, MessageHandler, filters, ContextTypes
+from telegram.ext import CallbackContext
+import language_tool_python
+import asyncio
+import nest_asyncio
+import nltk
+from nltk.corpus import wordnet
+from nltk.corpus import wordnet as wn
+from nltk.corpus import words
+from nltk.corpus import stopwords
+import pytz
+from datetime import datetime
+nltk.download('punkt')
+nltk.download('stopwords')
+nltk.download('omw-1.4')
+nltk.download('wordnet')
+nltk.download("averaged_perceptron_tagger")
 
 
 # In[2]:
 
 
-#import all necessary libraries 
+# Enable logging
+logging.basicConfig(filename='bot.log', level=logging.DEBUG,
+                    format='%(asctime)s - %(levelname)s - %(message)s')
 
-import language_tool_python
-from dotenv import load_dotenv
-from typing import Final
-from telegram import Update
-from telegram.ext import Application, CommandHandler, MessageHandler, filters, ContextTypes
-import asyncio
-import nest_asyncio
-from nltk.corpus import wordnet
-from nltk.corpus import wordnet as wn
-import pytz
-from datetime import datetime
-from telegram import Bot
-import nest_asyncio
-nltk.download('punkt')
-nltk.download('stopwords')
-nltk.download('words')
-nltk.download('wordnet')
-nltk.download('averaged_perceptron_tagger')
+# Then, log something
+logging.debug("Bot has started")
+
 
 # In[3]:
+
+
+# Load Environment Variables
+load_dotenv()
+TELEGRAM_TOKEN = os.getenv("TELEGRAM_TOKEN")
+print(TELEGRAM_TOKEN)
+
+
+# In[4]:
 
 
 print(nltk.data.path)
 
 
+# In[5]:
+
+
+nltk.data.path.append(r'C:\Users\thura\AppData\Roaming\nltk_data')
+
+
+
+
 # In[6]:
 
-
-load_dotenv()  # Load environment variables from .env
-nltk_data_path = os.getenv('NLTK_DATA', '/opt/render/project/src/.venv/nltk_data')  # Ensure it matches the path
-nltk.data.path.append(nltk_data_path)  # Set the environment variable for NLTK
-
-
-
-
-# In[7]:
-
-
-from nltk.corpus import stopwords
 
 # Load the stopwords corpus
 stop_words = stopwords.words('english')
 print(stop_words[:10])  # Print the first 10 stopwords
 
 
-# In[8]:
+# In[7]:
 
-
-from nltk.corpus import words
 
 # Get a list of English words
 english_words = words.words()
 print(english_words[:10])  # Print the first 10 words
 
 
-# In[12]:
+# In[8]:
 
-
-nltk.download('omw-1.4')
-
-
-
-
-# In[15]:
-
-
-from nltk.corpus import wordnet as wn
 
 # Load some wordnet synsets in English
 synsets = wn.synsets("dog")
@@ -122,46 +95,14 @@ print(stop_words[:10])  # First 10 stopwords
 
 
 
-
-# In[16]:
-
-
-# Apply nest_asyncio to avoid event loop conflicts in Jupyter Notebook
-nest_asyncio.apply()
-
-
-# In[17]:
-
-
-# download necessary NLTK data
-nltk.download('wordnet')
-
-
-# In[18]:
-
-
-#bot token and username.
-
-from dotenv import load_dotenv
-
-load_dotenv()  # Load environment variables from .env
-
-telegram_token = os.getenv("TELEGRAM_TOKEN")
-
-
-
-# In[19]:
+# In[9]:
 
 
 # Initialize LanguageTool for grammar checking
 tool = language_tool_python.LanguageTool('en-US')
 
 
-# Check if Java is installed
-java_installed = os.system("java -version") == 0
-print(f"Java installed: {java_installed}")
-
-# In[20]:
+# In[10]:
 
 
 def log_command(update: Update, context: ContextTypes.DEFAULT_TYPE):
@@ -170,7 +111,7 @@ def log_command(update: Update, context: ContextTypes.DEFAULT_TYPE):
 
 
 
-# In[21]:
+# In[11]:
 
 
 async def start_command (update: Update, context: ContextTypes.DEFAULT_TYPE) -> None:
@@ -181,7 +122,7 @@ async def start_command (update: Update, context: ContextTypes.DEFAULT_TYPE) -> 
         "🆘 Need help? Type /help")
 
 
-# In[22]:
+# In[12]:
 
 
 async def help_command(update: Update, context:ContextTypes.DEFAULT_TYPE) -> None:
@@ -198,7 +139,7 @@ async def help_command(update: Update, context:ContextTypes.DEFAULT_TYPE) -> Non
         "Need further assistance? Just ask!")
 
 
-# In[23]:
+# In[13]:
 
 
 async def correct_command(update: Update, context: ContextTypes.DEFAULT_TYPE) -> None:
@@ -221,7 +162,7 @@ async def correct_command(update: Update, context: ContextTypes.DEFAULT_TYPE) ->
     await update.message.reply_text(response)
 
 
-# In[24]:
+# In[14]:
 
 
 async def vocabinfo_command (update: Update, context: ContextTypes.DEFAULT_TYPE)-> None:
@@ -249,7 +190,7 @@ async def vocabinfo_command (update: Update, context: ContextTypes.DEFAULT_TYPE)
         await update.message.reply_text(message, parse_mode='Markdown')
 
 
-# In[25]:
+# In[15]:
 
 
 async def reset_command(update: Update, context: ContextTypes):
@@ -258,54 +199,38 @@ async def reset_command(update: Update, context: ContextTypes):
     await update.message.reply_text("🔄 Session has been reset. You can start fresh now!")
 
 
-# In[26]:
+# In[16]:
 
 
-async def handle_response(text: str) -> str:
-    processed: str = text.lower()
+async def handle_message(update: Update, context: CallbackContext) -> None:
+    user_text = update.message.text
 
-    if 'hello' in processed:
-        return 'Hi there! How can I help you today?'
+    # Check if the message starts with a command
+    if user_text.startswith('/correct'):
+        await update.message.reply_text("❗ Please provide a sentence after /correct. Example: /correct She go to school.")
+        return
+    elif user_text.startswith('/vocabinfo'):
+        await update.message.reply_text("❗ Please provide a word after /vocabinfo. Example: /vocabinfo happy.")
+        return
 
-    if 'how are you' in processed:
-        return "I'm good"
+    # Check for grammar issues in the message using LanguageTool
+    matches = tool.check(user_text)
+    corrected_text = language_tool_python.utils.correct(user_text, matches)
 
-    if 'I love Python' in processed:
-        return 'Remember to subscribe'
+    if user_text.lower() == corrected_text.lower():
+        response = "Your sentence looks good! ✅"
+    else:
+        response = f"Here's a suggestion:\n{corrected_text}"
 
-    return "I'm not sure how to respond to that. Could you try again?"
-
-
-# In[27]:
-
-
-async def handle_message(update: Update, context: ContextTypes.DEFAULT_TYPE):
-    user_message = update.message.text.lower()  # Convert to lowercase for consistency
+    # Log the original and corrected text
+    logger.info(f"User input: {user_text} | Corrected: {corrected_text}")
     
-    if "check grammar" in user_message or "correct this" in user_message:
-        response = correct_command(user_message)  # Call your grammar function
-        await update.message.reply_text(response)
-    else:
-        await update.message.reply_text("I'm not sure, sorry...")
+    # Send the response back to the user
+    await update.message.reply_text(response)
 
 
-# In[28]:
 
-
-async def process_message(message_type: str, text: str, BOT_USERNAME: str) -> str:
-    if message_type == 'group':
-        if BOT_USERNAME in text:
-            new_text = text.replace(BOT_USERNAME, '').strip()
-            response = await handle_response(new_text)  # Await handle_response
-        else:
-            return ''  # Return empty if no bot mention
-    else:
-        response = await handle_response(text)  # Await handle_response for normal messages
-
-    return response
-
-
-# In[29]:
+# In[17]:
 
 
 # Set bot's timezone
@@ -313,7 +238,7 @@ timezone = pytz.timezone('Asia/Riyadh')
 dt = datetime.now(timezone)
 
 
-# In[17]:
+# In[18]:
 
 
 async def error(update: Update, context: ContextTypes.DEFAULT_TYPE):
@@ -321,7 +246,7 @@ async def error(update: Update, context: ContextTypes.DEFAULT_TYPE):
 if __name__=='__main__':
     logging.info('Starting bot...')
 # Initialize bot application
-    app = Application.builder().token(telegram_token).build()
+    app= Application.builder().token(TELEGRAM_TOKEN).build()
     #add command handler
     app.add_handler(CommandHandler('start', start_command))
     app.add_handler(CommandHandler('help', help_command))
@@ -343,9 +268,14 @@ async def run_bot():
     await app.run_polling(poll_interval=3)
 
 # Start the bot
-    asyncio.run(run_bot())
+asyncio.create_task(run_bot())
 print("Running bot...")
 
-print(nltk.data.path)
+
+
+
 # In[ ]:
+
+
+
 
