@@ -1,7 +1,7 @@
 #!/usr/bin/env python
 # coding: utf-8
 
-# In[1]:
+# In[2]:
 
 
 #import all necessary libraries 
@@ -32,7 +32,7 @@ nltk.download('wordnet')
 nltk.download("averaged_perceptron_tagger")
 
 
-# In[2]:
+# In[3]:
 
 
 # Enable logging
@@ -43,30 +43,31 @@ logging.basicConfig(filename='bot.log', level=logging.DEBUG,
 logging.debug("Bot has started")
 
 
-# In[3]:
+# In[16]:
 
 
 # Load Environment Variables
 load_dotenv()
 TELEGRAM_TOKEN = os.getenv("TELEGRAM_TOKEN")
-print(TELEGRAM_TOKEN)
 
 
-# In[4]:
 
+# In[24]:
+
+
+nltk.data.path = list(set(nltk.data.path))
+nltk.data.path = [r'C:\Users\thura\QalamBot\nltk_data']
+
+
+# In[25]:
+
+
+nltk.data.path.append(os.path.join(os.getcwd(), 'nltk_data'))
 
 print(nltk.data.path)
 
 
-# In[5]:
-
-
-nltk.data.path.append(r'C:\Users\thura\AppData\Roaming\nltk_data')
-
-
-
-
-# In[6]:
+# In[26]:
 
 
 # Load the stopwords corpus
@@ -74,7 +75,7 @@ stop_words = stopwords.words('english')
 print(stop_words[:10])  # Print the first 10 stopwords
 
 
-# In[7]:
+# In[27]:
 
 
 # Get a list of English words
@@ -82,7 +83,7 @@ english_words = words.words()
 print(english_words[:10])  # Print the first 10 words
 
 
-# In[8]:
+# In[28]:
 
 
 # Load some wordnet synsets in English
@@ -95,14 +96,14 @@ print(stop_words[:10])  # First 10 stopwords
 
 
 
-# In[9]:
+# In[29]:
 
 
 # Initialize LanguageTool for grammar checking
 tool = language_tool_python.LanguageTool('en-US')
 
 
-# In[10]:
+# In[30]:
 
 
 def log_command(update: Update, context: ContextTypes.DEFAULT_TYPE):
@@ -111,7 +112,7 @@ def log_command(update: Update, context: ContextTypes.DEFAULT_TYPE):
 
 
 
-# In[11]:
+# In[31]:
 
 
 async def start_command (update: Update, context: ContextTypes.DEFAULT_TYPE) -> None:
@@ -122,7 +123,7 @@ async def start_command (update: Update, context: ContextTypes.DEFAULT_TYPE) -> 
         "🆘 Need help? Type /help")
 
 
-# In[12]:
+# In[32]:
 
 
 async def help_command(update: Update, context:ContextTypes.DEFAULT_TYPE) -> None:
@@ -139,7 +140,7 @@ async def help_command(update: Update, context:ContextTypes.DEFAULT_TYPE) -> Non
         "Need further assistance? Just ask!")
 
 
-# In[13]:
+# In[33]:
 
 
 async def correct_command(update: Update, context: ContextTypes.DEFAULT_TYPE) -> None:
@@ -162,7 +163,7 @@ async def correct_command(update: Update, context: ContextTypes.DEFAULT_TYPE) ->
     await update.message.reply_text(response)
 
 
-# In[14]:
+# In[34]:
 
 
 async def vocabinfo_command (update: Update, context: ContextTypes.DEFAULT_TYPE)-> None:
@@ -190,7 +191,7 @@ async def vocabinfo_command (update: Update, context: ContextTypes.DEFAULT_TYPE)
         await update.message.reply_text(message, parse_mode='Markdown')
 
 
-# In[15]:
+# In[35]:
 
 
 async def reset_command(update: Update, context: ContextTypes):
@@ -199,7 +200,7 @@ async def reset_command(update: Update, context: ContextTypes):
     await update.message.reply_text("🔄 Session has been reset. You can start fresh now!")
 
 
-# In[16]:
+# In[36]:
 
 
 async def handle_message(update: Update, context: CallbackContext) -> None:
@@ -230,7 +231,7 @@ async def handle_message(update: Update, context: CallbackContext) -> None:
 
 
 
-# In[17]:
+# In[37]:
 
 
 # Set bot's timezone
@@ -238,7 +239,7 @@ timezone = pytz.timezone('Asia/Riyadh')
 dt = datetime.now(timezone)
 
 
-# In[18]:
+# In[38]:
 
 
 async def error(update: Update, context: ContextTypes.DEFAULT_TYPE):
