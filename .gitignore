@@ -1,4 +1,4 @@
-.env
-bot.log
+venv/
+*.pyc
 __pycache__/
-#nltk_data/
+.nltk_data/
