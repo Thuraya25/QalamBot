@@ -18,7 +18,6 @@ from telegram.ext import Application, CommandHandler, MessageHandler, filters, C
 from telegram.ext import CallbackContext
 import language_tool_python
 import asyncio
-import nest_asyncio
 import nltk
 from nltk.corpus import wordnet
 from nltk.corpus import wordnet as wn
@@ -56,45 +55,12 @@ TELEGRAM_TOKEN = os.getenv("TELEGRAM_TOKEN")
 # In[24]:
 
 
-nltk.data.path = [r'C:\Users\thura\QalamBot\nltk_data']
-nltk.data.path.append(r"C:\Users\thura\QalamBot\nltk_data")  # Add custom NLTK data path
+  # Add custom NLTK data path
 
-
-# In[25]:
-
-
-
-# In[26]:
-
-
-# Load the stopwords corpus
-stop_words = stopwords.words('english')
-print(stop_words[:10])  # Print the first 10 stopwords
-
-
-# In[27]:
-
-
-# Get a list of English words
-english_words = words.words()
-print(english_words[:10])  # Print the first 10 words
-
-
-# In[28]:
-
-
-# Load some wordnet synsets in English
-synsets = wn.synsets("dog")
-print(synsets)
-
-# Use stopwords corpus
-stop_words = stopwords.words('english')
-print(stop_words[:10])  # First 10 stopwords
-
+nltk.data.path.append('C:/Users/thura/AppData/Roaming/nltk_data')  # Use the default directory
 
 
 # In[29]:
-
 
 # Initialize LanguageTool for grammar checking
 tool = language_tool_python.LanguageTool('en-US')
